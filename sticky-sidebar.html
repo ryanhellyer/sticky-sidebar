@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta charset="utf-8">	
+<title>Test</title>
+
+<style>
+
+/* =Fonts
+-------------------------------------------------------------- */
+
+@font-face {
+    font-family: 'Open Sans Light';
+    src: url('fonts/open-sans-light/OpenSans-Light-webfont.eot');
+    src: url('fonts/open-sans-light/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/open-sans-light/OpenSans-Light-webfont.woff') format('woff'),
+         url('fonts/open-sans-light/OpenSans-Light-webfont.ttf') format('truetype'),
+         url('fonts/open-sans-light/OpenSans-Light-webfont.svg#open_sanscondensed_light') format('svg');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('fonts/open-sans/OpenSans-Regular-webfont.eot');
+    src: url('fonts/open-sans/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/open-sans/OpenSans-Regular-webfont.woff') format('woff'),
+         url('fonts/open-sans/OpenSans-Regular-webfont.ttf') format('truetype'),
+         url('fonts/open-sans/OpenSans-Regular-webfont.svg#open_sanscondensed_light') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/* =Reset all the things
+-------------------------------------------------------------- */
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+
+/* =Page layout
+-------------------------------------------------------------- */
+
+#header {
+	position: fixed;
+	float: left;
+	width: 100%;
+	background: #eee;
+	border-bottom: 1px solid #ccc;
+	padding: 2rem 0;
+}
+
+#main {
+	width: 100%;
+	float: left;
+}
+
+	#wrapper {
+		width: 80%;
+		margin: 0 auto;
+	}
+
+		#sidebar {
+			float: left;
+			width: 34%;
+		}
+
+		#content {
+			float: right;
+			width: 60%;
+		}
+
+			.inner {
+				display: block;
+				overflow: hidden;
+				background: #eee;
+				border: 1px solid #ccc;
+				margin: 60px 0;
+				padding: 60px 60px;
+			}
+
+#footer {
+	float: left;
+	width: 60%;
+	padding: 4rem 20%;
+	background: #eee;
+	border-top: 1px solid #ccc;
+}
+
+
+/* =Content styling
+-------------------------------------------------------------- */
+
+a:visited,
+a {
+	color: #0066cc;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #0066cc;
+	text-decoration: underline;
+}
+
+h1,
+h2 {
+	font-family: 'Open Sans', sans-serif;
+	color: #000;
+	font-weight: normal;
+}
+
+h1 {
+	text-align: center;
+	font-size: 4rem;
+}
+
+h2 {
+	font-size: 3rem;
+}
+
+p {
+	font-size: 1.3rem;
+	font-family: 'Open Sans', sans-serif;
+	color: #000;
+	margin: 2.5rem 0;
+	line-height: 2.3rem;
+	word-wrap: break-word;
+}
+
+#footer p {
+	font-size: 1rem;
+	line-height: 1.6rem;
+}
+
+img {
+											Xdisplay: block;
+	width: 100%;
+	height: auto;
+}
+
+</style>
+
+<script>
+
+/**
+ * Add sticky sidebar functionality.
+ */
+( function() {
+
+	/**
+	 * Setting variables.
+	 * These need to be in scope for both window.onload and document.onscroll.
+	 */
+	var page_main;
+	var page_header;
+	var wiki_sidebar;
+	var page_header;
+	var wiki_content;
+	var page_footer;
+
+	/**
+	 * Set variables on window load.
+	 * Set page height on window load.
+	 */
+	window.onload = function() {
+
+		// Get items
+		page_main = document.getElementById( "main" );
+		page_header = document.getElementById( "header" );
+		wiki_sidebar = document.getElementById( "sidebar" );
+		page_header = document.getElementById( "header" );
+		wiki_content = document.getElementById( "content" );
+		page_footer = document.getElementById( "footer" );
+
+		// Set initial sidebar position
+		page_main.style.marginTop = page_header.clientHeight + "px";
+	}
+
+	/**
+	 * Run actions on scrolling.
+	 */
+	document.onscroll = function() {
+
+		// Setting useful sidebar vars
+		var wiki_sidebar_rect = wiki_sidebar.getBoundingClientRect();
+		var wiki_sidebar_from_window_top = wiki_sidebar_rect.top;
+		var wiki_sidebar_bottom_from_window_top = wiki_sidebar_from_window_top + wiki_sidebar.clientHeight;
+
+		// Setting useful content area vars
+		var wiki_content_rect = wiki_content.getBoundingClientRect();
+		var wiki_content_from_window_top = wiki_content_rect.top;
+		var wiki_content_bottom_from_window_top = ( wiki_content_from_window_top + wiki_content.clientHeight );
+
+		// Setting useful footer vars
+		var page_footer_rect = page_footer.getBoundingClientRect();
+		var page_footer_from_window_top = page_footer_rect.top;
+
+		// Get the scroll position (required due to Firefox and Chrome both using different ways of accessing the scroll position)
+		var scroll_top = document.documentElement.scrollTop || document.body.scrollTop;
+
+		// Set sidebar position if sidebar bottom is less than footer top or sidebar top is greater than header height
+		if (
+			wiki_sidebar_bottom_from_window_top < page_footer_from_window_top
+			||
+			wiki_sidebar_from_window_top > page_header.clientHeight
+		) {
+			wiki_sidebar.style.marginTop = scroll_top + "px";
+		}
+
+	}
+
+
+})();
+
+</script>
+
+</head>
+<body>
+
+
+<header id="header">
+	<h1>Sticky sidebar demo</h1>
+</header>
+
+
+<main id="main">
+	<div id="wrapper">
+
+		<aside id="sidebar">
+			<div class="inner">
+				<h2>Sticky sidebar</h2>
+				<p>This is the sticky sidebar.</p>
+
+				<a href="https://ryan.hellyer.kiwi/2016/06/27/brisetal-hike/"><img src="https://ryan.hellyer.kiwi/files/2016/06/sheep-1-680x510.jpg" /></a>
+
+				<p>The sticky sidebar should stick to the top when appropriate, but bottom out once it hits the footer.</p>
+			</div>
+		</aside>
+
+		<article id="content">
+			<div class="inner">
+				<h2>Content</h2>
+				<p>
+					This demo is designed to show how sticky sidebars can be implemented using nothing more than vanilla JS.
+				</p>
+				<p>
+					All code used in this demo is provided inline within this pages source code. Simply view the source, and copy/paste :)
+				</p>
+				<p>
+					When I went to find examples of this type of code, I only found huge jQuery libraries, or implementations which did not handle non-fixed header/footer heights, or did not handle bottoming out at the footer correctly.
+				</p>
+				<a href="https://ryan.hellyer.kiwi/2015/05/25/cycling-to-bernau/"><img src="https://ryan.hellyer.kiwi/files/2015/05/robinson-jenny-1-680x510.jpg" /></a>
+				<p>
+					This is my attempt to creating a system which works well, with minimal code and works cross-browser in all commonly used web browsers.
+				</p>
+				<p>
+					If you see any problems, or would like to provide in put on this demo, please don't hesitate to <a href="https://ryan.hellyer.kiwi/contact/">get in touch with me</a>. Just make sure you link to this demo in your message, or I may have no idea what you are talking about ;)</p>
+				</p>
+
+				<a href="https://ryan.hellyer.kiwi/2015/04/21/safety/"><img src="https://ryan.hellyer.kiwi/files/2014/12/stairs-2-900x675.jpg" /></a>
+
+				<a href="https://ryan.hellyer.kiwi/2015/05/02/baumblutenfest/"><img src="https://ryan.hellyer.kiwi/files/2015/04/beth-2-680x453.jpg" /></a>
+			</div>
+		</article>
+
+	</div>
+</main>
+
+
+<footer id="footer">
+	<p>A creation of <a href="https://geek.hellyer.kiwi/">Ryan Hellyer 2016</a>. The code used in this page is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2 license</a> (which means you need to mention me wherever you use the code). If you need to use this with a different license, then <a href="https://ryan.hellyer.kiwi/contact/">please contact me</a> (everything is flexible if you can give me a valid reason for using another license).
+</footer>
+
+
+</body>
+</html>
